@@ -50,35 +50,35 @@ Running TestLink with a database server is the recommended way. You can either u
 This is the recommended way to run TestLink. You can use the following docker compose template:
 
 ```yaml
-version: '2'
+version: '3'
 
 services:
   mariadb:
-    image: 'bitnami/mariadb:latest'
+    image: bitnami/mariadb:latest
     environment:
-      - ALLOW_EMPTY_PASSWORD=yes
-      - MARIADB_USER=bn_testlink
-      - MARIADB_DATABASE=bitnami_testlink
+      MARIADB_USER: "bn_testlink"
+      MARIADB_DATABASE: "bitnami_testlink"
+      ALLOW_EMPTY_PASSWORD: "yes"
     volumes:
-      - 'mariadb_data:/bitnami'
+      - mariadb_data:/bitnami
   testlink:
-    image: 'bitnami/testlink:latest'
+    image: bitnami/testlink:latest
+    environment:
+      MARIADB_HOST: "mariadb"
+      MARIADB_PORT_NUMBER: "3306"
+      TESTLINK_DATABASE_USER: "bn_testlink"
+      TESTLINK_DATABASE_NAME: "bitnami_testlink"
+      ALLOW_EMPTY_PASSWORD: "yes"
+      TESTLINK_USERNAME: "admin"
+      TESTLINK_PASSWORD: "adminpassword"
+      TESTLINK_EMAIL: "admin@example.com"
     ports:
-      - '80:80'
-      - '443:443'
+      - "80:80"
+      - "443:443"
     volumes:
-      - 'testlink_data:/bitnami'
+      - testlink_data:/bitnami
     depends_on:
       - mariadb
-    environment:
-      - MARIADB_HOST=mariadb
-      - MARIADB_PORT_NUMBER=3306
-      - TESTLINK_DATABASE_USER=bn_testlink
-      - TESTLINK_DATABASE_NAME=bitnami_testlink
-      - ALLOW_EMPTY_PASSWORD=yes
-      - TESTLINK_USERNAME: admin
-      - TESTLINK_PASSWORD: verysecretadminpassword
-      - TESTLINK_EMAIL: admin@example.com
 
 volumes:
   mariadb_data:
@@ -142,28 +142,28 @@ To avoid inadvertent removal of these volumes you can [mount host directories as
 This requires a minor change to the `docker-compose.yml` template previously shown:
 
 ```yaml
-version: '2'
+version: '3'
 
 services:
   mariadb:
-    image: 'bitnami/mariadb:latest'
+    image: bitnami/mariadb:latest
     environment:
-      - ALLOW_EMPTY_PASSWORD=yes
-      - MARIADB_USER=bn_testlink
-      - MARIADB_DATABASE=bitnami_testlink
+      ALLOW_EMPTY_PASSWORD: "yes"
+      MARIADB_USER: "bn_testlink"
+      MARIADB_DATABASE: "bitnami_testlink"
     volumes:
-      - '/path/to/mariadb-persistence:/bitnami'
+      - /path/to/mariadb-persistence:/bitnami
   testlink:
-    image: 'bitnami/testlink:latest'
+    image: bitnami/testlink:latest
     environment:
-      - TESTLINK_DATABASE_USER=bn_testlink
-      - TESTLINK_DATABASE_NAME=bitnami_testlink
-      - ALLOW_EMPTY_PASSWORD=yes
+      TESTLINK_DATABASE_USER: "bn_testlink"
+      TESTLINK_DATABASE_NAME: "bitnami_testlink"
+      ALLOW_EMPTY_PASSWORD: "yes"
     ports:
-      - '80:80'
-      - '443:443'
+      - "80:80"
+      - "443:443"
     volumes:
-      - '/path/to/testlink-persistence:/bitnami'
+      - /path/to/testlink-persistence:/bitnami
     depends_on:
       - mariadb
 ```
@@ -320,19 +320,19 @@ This would be an example of SMTP configuration using a GMail account:
   testlink:
     image: bitnami/testlink:latest
     ports:
-      - '80:80'
-      - '443:443'
+      - "80:80"
+      - "443:443"
     environment:
-      - MARIADB_HOST=mariadb
-      - MARIADB_PORT_NUMBER=3306
-      - TESTLINK_DATABASE_USER=bn_testlink
-      - TESTLINK_DATABASE_NAME=bitnami_testlink
-      - SMTP_ENABLE=true
-      - SMTP_HOST=smtp.gmail.com
-      - SMTP_PORT=587
-      - SMTP_USER=your_email@gmail.com
-      - SMTP_PASSWORD=your_password
-      - SMTP_CONNECTION_MODE=tls
+      MARIADB_HOST: "mariadb"
+      MARIADB_PORT_NUMBER: "3306"
+      TESTLINK_DATABASE_USER: "bn_testlink"
+      TESTLINK_DATABASE_NAME: "bitnami_testlink"
+      SMTP_ENABLE: "true"
+      SMTP_HOST: "smtp.gmail.com"
+      SMTP_PORT: "587"
+      SMTP_USER: "your_email@gmail.com"
+      SMTP_PASSWORD: "your_password"
+      SMTP_CONNECTION_MODE: "tls"
   ```
 
  * For manual execution:
