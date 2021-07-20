@@ -8,7 +8,7 @@ set -o pipefail
 # set -o xtrace # Uncomment this line for debugging purposes
 
 # Change max upload size for import
-sed -i "s/409600/$MAX_IMPORT_MEMORY_LIMIT/g" /opt/bitnami/testlink/config.inc.php
+sed -i 's/import_file_max_size_bytes.*/import_file_max_size_bytes = "'$MAX_IMPORT_MEMORY_LIMIT'";/g' /opt/bitnami/testlink/config.inc.php
 
 # Only execute init scripts once
 if [[ ! -f "/bitnami/testlink/.user_scripts_initialized" && -d "/docker-entrypoint-init.d" ]]; then

@@ -10,10 +10,13 @@ services:
       - "mariadb_data:/bitnami/mariadb"
 
   testlink:
-    image: docker.io/bitnami/testlink:1
+    # image: docker.io/bitnami/testlink:1
+    build: 
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - "80:8080"
-      - "443:8443"
+      - '80:8080'
+      - '443:8443'
     environment:
       - TESTLINK_DATABASE_HOST=mariadb
       - TESTLINK_DATABASE_PORT_NUMBER=3306
