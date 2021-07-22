@@ -105,3 +105,5 @@ export TESTLINK_DATABASE_PASSWORD="${TESTLINK_DATABASE_PASSWORD:-}" # only used 
 export PHP_DEFAULT_MEMORY_LIMIT="256M" # only used at build time
 
 # Custom environment variables may be defined below
+export DEFAULT_MAX_IMPORT_MEMORY_LIMIT="409600" # used in order to set maximum import limit, default value is 400kb
+export MAX_IMPORT_MEMORY_LIMIT="${MAX_IMPORT_MEMORY_LIMIT:-$DEFAULT_MAX_IMPORT_MEMORY_LIMIT}"
